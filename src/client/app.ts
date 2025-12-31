@@ -9,6 +9,7 @@ export default function app() {
         searchCategory: 'all',
         searchStatus: 'all',
         searchTags: '',
+        showSearch: false,
 
         editingItem: null as Item | null,
         isModalOpen: false,
@@ -114,6 +115,13 @@ export default function app() {
                 console.error('Failed to delete item', e);
                 alert('削除に失敗しました');
             }
+        },
+
+        resetSearch() {
+            this.searchQuery = '';
+            this.searchCategory = 'all';
+            this.searchStatus = 'all';
+            this.searchTags = '';
         }
     };
 }
