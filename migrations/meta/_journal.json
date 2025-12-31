@@ -13,7 +13,14 @@
       "idx": 1,
       "version": "6",
       "when": 1767149461801,
-      "tag": "0001_careless_hitman",
+      "tag": "0001_add_price_fields",
+      "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "6",
+      "when": 1767154818271,
+      "tag": "0002_add_tags_column",
       "breakpoints": true
     }
   ]

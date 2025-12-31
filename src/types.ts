@@ -6,6 +6,7 @@ export interface Item {
     imageUrl: string | null;
     status: 'owned' | 'wishlist' | 'temp';
     description: string | null;
+    tags: string | null;
     listPrice: number | null;
     purchasePrice: number | null;
     createdAt: Date;
@@ -17,6 +18,7 @@ export interface BookInfo {
     category: 'book' | 'cd' | 'dvd' | 'game' | 'other';
     imageUrl: string;
     description: string;
+    tags: string | null;
     listPrice: number | null;
     purchasePrice: number | null;
 }

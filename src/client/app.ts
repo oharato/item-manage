@@ -5,10 +5,68 @@ export default function app() {
     return {
         ...scanner(),
         savedItems: [] as Item[],
+        searchQuery: '',
+        searchCategory: 'all',
+        searchStatus: 'all',
+        searchTags: '',
+
+        editingItem: null as Item | null,
+        isModalOpen: false,
 
         async init() {
             console.log('App initialized');
             await this.loadItems();
+        },
+
+        get filteredItems(): Item[] {
+            return this.savedItems.filter(item => {
+                const matchesQuery = !this.searchQuery ||
+                    item.name.toLowerCase().includes(this.searchQuery.toLowerCase()) ||
+                    (item.description && item.description.toLowerCase().includes(this.searchQuery.toLowerCase()));
+
+                const matchesCategory = this.searchCategory === 'all' || item.category === this.searchCategory;
+
+                const matchesStatus = this.searchStatus === 'all' || item.status === this.searchStatus;
+
+                const tags = item.tags ? item.tags.split(',').map(t => t.trim().toLowerCase()) : [];
+                const searchTagList = this.searchTags ? this.searchTags.split(',').map(t => t.trim().toLowerCase()) : [];
+                const matchesTags = searchTagList.length === 0 ||
+                    searchTagList.every(st => tags.some(t => t.includes(st)));
+
+                return matchesQuery && matchesCategory && matchesStatus && matchesTags;
+            });
+        },
+
+        openEditModal(item: Item) {
+            this.editingItem = JSON.parse(JSON.stringify(item));
+            this.isModalOpen = true;
+        },
+
+        closeModal() {
+            this.isModalOpen = false;
+            this.editingItem = null;
+        },
+
+        async updateItem() {
+            if (!this.editingItem) return;
+
+            try {
+                const res = await fetch(`/api/items/${this.editingItem.id}`, {
+                    method: 'PUT',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(this.editingItem)
+                });
+
+                if (res.ok) {
+                    await this.loadItems();
+                    this.closeModal();
+                } else {
+                    alert('更新に失敗しました');
+                }
+            } catch (e) {
+                console.error('Failed to update item', e);
+                alert('通信エラーが発生しました');
+            }
         },
 
         async loadItems() {
@@ -49,6 +107,7 @@ export default function app() {
             try {
                 const res = await fetch(`/api/items/${id}`, { method: 'DELETE' });
                 if (res.ok) {
+                    if (this.isModalOpen) this.closeModal();
                     await this.loadItems();
                 }
             } catch (e) {

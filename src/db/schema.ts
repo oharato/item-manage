@@ -9,6 +9,7 @@ export const items = sqliteTable("items", {
     imageUrl: text("image_url"),
     status: text("status").notNull(), // 'owned', 'wishlist'
     description: text("description"),
+    tags: text("tags"), // カマ区切りのタグ
     listPrice: integer("list_price"),
     purchasePrice: integer("purchase_price"),
     createdAt: integer("created_at", { mode: "timestamp" }).notNull(),

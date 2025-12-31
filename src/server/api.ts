@@ -32,6 +32,7 @@ api.post('/items', async (c) => {
             imageUrl: body.imageUrl,
             status: body.status,
             description: body.description,
+            tags: body.tags,
             listPrice: body.listPrice,
             purchasePrice: body.purchasePrice,
             createdAt: new Date(),
@@ -55,6 +56,30 @@ api.delete('/items/:id', async (c) => {
     } catch (e) {
         console.error('API Error (DELETE /items):', e);
         return c.json({ error: 'Failed to delete item' }, 500);
+    }
+})
+
+// 更新
+api.put('/items/:id', async (c) => {
+    try {
+        const db = drizzle(c.env.DB)
+        const id = c.req.param('id')
+        const body: Partial<NewItem> = await c.req.json()
+
+        const updatedData: any = {}
+        if (body.name !== undefined) updatedData.name = body.name
+        if (body.category !== undefined) updatedData.category = body.category
+        if (body.tags !== undefined) updatedData.tags = body.tags
+        if (body.description !== undefined) updatedData.description = body.description
+        if (body.listPrice !== undefined) updatedData.listPrice = body.listPrice
+        if (body.purchasePrice !== undefined) updatedData.purchasePrice = body.purchasePrice
+        if (body.status !== undefined) updatedData.status = body.status
+
+        await db.update(items).set(updatedData).where(eq(items.id, id))
+        return c.json({ success: true })
+    } catch (e) {
+        console.error('API Error (PUT /items):', e);
+        return c.json({ error: 'Failed to update item' }, 500);
     }
 })
 
@@ -131,6 +156,7 @@ api.get('/lookup/:code', async (c) => {
                 category,
                 imageUrl: item.largeImageUrl,
                 description: item.itemCaption || '',
+                tags: null,
                 listPrice: item.itemPrice || null,
                 purchasePrice: null,
             };

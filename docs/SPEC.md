@@ -36,6 +36,7 @@
 | image_url | TEXT | Yes | 商品画像URL |
 | status | TEXT | No | 'owned', 'wishlist' |
 | description | TEXT | Yes | 商品概要 |
+| tags | TEXT | Yes | カンマ区切りのタグ |
 | created_at | INTEGER | No | 作成日時 (Timestamp) |
 
 ## 4. API 仕様
@@ -57,12 +58,23 @@ JAN/ISBNコードから商品情報を取得する（サーバーサイドで楽
 - Response: `BookInfo`
 - 特徴: 取得したデータ（タイトル、説明文、ジャンルID）からカテゴリを自動推定する。
 
+### `PUT /api/items/:id` [NEW]
+既存のアイテム情報を更新する。
+- Response: `{ success: true }`
+
 ## 5. フロントエンド仕様
 - **Framework**: Alpine.js
 - **UI Components**:
   - `scanner`: バーコード読み取りと一次リスト管理
-  - `app`: 全体の一覧表示と削除・登録のアクション
-- **External Integration**: 楽天ブックス総合検索API (サーバーサイド経由)
+  - `app`: 全体の一覧表示と登録・削除、および編集モーダルの制御、検索・フィルタリングのロジックを管理。
+## Priority 2: ユーザー体験（UX）の向上
+- [x] **アイテム編集**: モーダルによるタグ、購入価格、メモの事後編集機能の実装。
+- [x] **検索・フィルタリング**: キーワード、カテゴリ、タグによる検索。
+の組み合わせによるクライアントサイドフィルタリング。
+- **Detail & Editing**: アーカイブのアイテムをクリックして詳細を表示し、タグ、購入価格、メモ等を編集可能。
+- **Delete**: 詳細モーダル内からアイテムを削除。
+- **Tagging**: 自由入力のタグ（カンマ区切り）をサポート。
+- **External Integration**: 楽天ブックス総合検索API (サーバーサイド経由)。
 - **Category Estimation**: `genreId` に加え、タイトルや商品説明文のキーワードからカテゴリを自動推定。
 
 ## 6. セキュリティ
