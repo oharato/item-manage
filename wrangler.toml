@@ -1,9 +1,10 @@
 name = "item-manage"
 compatibility_date = "2025-12-31"
-pages_build_output_dir = "dist"
+main = "dist/_worker.js"
+assets = { directory = "dist", binding = "ASSETS" }
 
 [[d1_databases]]
 binding = "DB"
 database_name = "item-manage-db"
-database_id = "676082b6-bb22-4d0b-b8ae-28192903bc73"
+database_id = "57f7d311-4762-4eab-ba5d-cd0251d5b764"
 migrations_dir = "migrations"

@@ -3,7 +3,12 @@ import { Hono } from 'hono'
 import api from './server/api'
 import { Layout, MainView } from './server/views'
 
-const app = new Hono<{ Bindings: { DB: D1Database } }>()
+const app = new Hono<{ Bindings: { DB: D1Database, ASSETS: Fetcher } }>()
+
+// Static Assets
+app.get('/assets/*', async (c) => {
+  return await c.env.ASSETS.fetch(c.req.raw)
+})
 
 // API Mount
 app.route('/api', api)
