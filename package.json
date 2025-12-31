@@ -25,6 +25,7 @@
   },
   "devDependencies": {
     "@cloudflare/workers-types": "^4.20251231.0",
+    "@types/alpinejs": "^3.13.11",
     "@typescript/native-preview": "7.0.0-dev.20251230.1",
     "drizzle-kit": "^0.31.8",
     "oxfmt": "^0.21.0",

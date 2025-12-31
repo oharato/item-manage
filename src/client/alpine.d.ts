@@ -1,8 +1,8 @@
-declare module 'alpinejs' {
-    const Alpine: any;
-    export default Alpine;
-}
+/// <reference types="vite/client" />
+import Alpine from 'alpinejs';
 
-interface Window {
-    Alpine: any;
+declare global {
+    interface Window {
+        Alpine: typeof Alpine;
+    }
 }

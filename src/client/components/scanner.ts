@@ -1,5 +1,5 @@
 import { Html5QrcodeScanner } from "html5-qrcode";
-import { fetchBookInfo } from "../utils/api-client";
+import { fetchItemInfo } from "../utils/api-client";
 import { type BookInfo } from "../../types";
 
 interface ScannerItem extends BookInfo {
@@ -52,9 +52,9 @@ export default function scanner() {
 
             this.stopScanner();
 
-            // ISBNらしき数字（13桁）であれば情報を取得
+            // ISBN/JANらしき数字（13桁）であれば情報を取得
             if (decodedText.length === 13 || decodedText.length === 10) {
-                const info = await fetchBookInfo(decodedText);
+                const info = await fetchItemInfo(decodedText);
                 if (info) {
                     this.tempItems.push({
                         ...info,

@@ -2,7 +2,7 @@ export interface Item {
     id: string;
     name: string;
     barcode: string | null;
-    category: string;
+    category: 'book' | 'cd' | 'dvd' | 'game' | 'other';
     imageUrl: string | null;
     status: 'owned' | 'wishlist' | 'temp';
     description: string | null;
@@ -14,7 +14,7 @@ export interface Item {
 export interface BookInfo {
     name: string;
     barcode: string;
-    category: string;
+    category: 'book' | 'cd' | 'dvd' | 'game' | 'other';
     imageUrl: string;
     description: string;
     listPrice: number | null;

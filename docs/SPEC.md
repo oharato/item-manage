@@ -52,12 +52,18 @@
 アイテムを削除する。
 - Response: `{ success: true }`
 
+### `GET /api/lookup/:code` [NEW]
+JAN/ISBNコードから商品情報を取得する（サーバーサイドで楽天APIを呼び出し）。
+- Response: `BookInfo`
+- 特徴: 取得したデータ（タイトル、説明文、ジャンルID）からカテゴリを自動推定する。
+
 ## 5. フロントエンド仕様
 - **Framework**: Alpine.js
 - **UI Components**:
   - `scanner`: バーコード読み取りと一次リスト管理
   - `app`: 全体の一覧表示と削除・登録のアクション
-- **External Integration**: Google Books API (ISBN 検索)
+- **External Integration**: 楽天ブックス総合検索API (サーバーサイド経由)
+- **Category Estimation**: `genreId` に加え、タイトルや商品説明文のキーワードからカテゴリを自動推定。
 
 ## 6. セキュリティ
 - **認証**: 本番環境では Cloudflare Access を使用。アプリケーション層での認証実装は行わない。
