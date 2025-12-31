@@ -1,0 +1,9 @@
+name = "item-manage"
+compatibility_date = "2025-12-31"
+pages_build_output_dir = "dist"
+
+[[d1_databases]]
+binding = "DB"
+database_name = "item-manage-db"
+database_id = "your-database-id-here"
+migrations_dir = "migrations"
