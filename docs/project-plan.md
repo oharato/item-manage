@@ -18,7 +18,7 @@
 - **Styling**: Vanilla CSS
 - **Framework**: Hono (Cloudflare Workers)
 - **Database**: Cloudflare D1
-- **Authentication**: Better Auth (with Drizzle ORM)
+- **Authentication**: Cloudflare Access (メアド認証/アプリ内実装なし)
 - **Lint/Format**: oxlint, oxfmt
 - **Testing**: Vitest
 

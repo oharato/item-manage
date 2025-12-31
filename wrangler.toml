@@ -5,5 +5,5 @@ pages_build_output_dir = "dist"
 [[d1_databases]]
 binding = "DB"
 database_name = "item-manage-db"
-database_id = "your-database-id-here"
+database_id = "676082b6-bb22-4d0b-b8ae-28192903bc73"
 migrations_dir = "migrations"
