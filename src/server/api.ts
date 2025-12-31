@@ -32,6 +32,8 @@ api.post('/items', async (c) => {
             imageUrl: body.imageUrl,
             status: body.status,
             description: body.description,
+            listPrice: body.listPrice,
+            purchasePrice: body.purchasePrice,
             createdAt: new Date(),
         }
 

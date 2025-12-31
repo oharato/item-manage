@@ -10,6 +10,12 @@ interface GoogleBooksResponse {
             };
             description?: string;
         };
+        saleInfo?: {
+            listPrice?: {
+                amount: number;
+                currencyCode: string;
+            };
+        };
     }[];
 }
 
@@ -27,6 +33,8 @@ export async function fetchBookInfo(isbn: string): Promise<BookInfo | null> {
                 category: 'book',
                 imageUrl: book.imageLinks?.thumbnail || '',
                 description: book.description || '',
+                listPrice: data.items[0].saleInfo?.listPrice?.amount || null,
+                purchasePrice: null,
             };
         }
     } catch (error) {
