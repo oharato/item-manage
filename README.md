@@ -17,12 +17,13 @@
 - **Database**: Cloudflare D1
 - **Deployment**: Cloudflare Workers
 - **API**: Rakuten Books Total Search API
+- **CI/CD**: GitHub Actions
 
 ## セットアップと起動
 
 ### 必要条件
 
-- Node.js (v18+)
+- Node.js (v20+)
 - pnpm
 
 ### インストール
@@ -62,3 +63,18 @@ pnpm dev
 ```bash
 pnpm test
 ```
+
+## デプロイ (CI/CD)
+
+GitHub Actions を使用して、`main` ブランチへのプッシュ時に自動的に Cloudflare Workers へデプロイされます。また、以下の処理が自動実行されます。
+
+1. **Build**: クライアントアセットの圧縮ビルドとサーバーコードのビルド
+2. **Migration**: 本番DB (`item-manage-db`) へのマイグレーション適用
+3. **Deploy**: Cloudflare Workers へのデプロイ
+
+### 必要な GitHub Secrets
+
+リポジトリの Settings > Secrets and variables > Actions に以下を設定してください。
+
+- `CLOUDFLARE_API_TOKEN`: Cloudflare Workers および D1 に対する編集権限を持つトークン (Permission: Workers Scripts: Edit, D1: Edit, Account Settings: Read)
+- `CLOUDFLARE_ACCOUNT_ID`: Cloudflare アカウント ID

@@ -6,6 +6,7 @@
 ## 2. ディレクトリ構成
 ```text
 /
+├── .github/            # GitHub Actions ワークフロー
 ├── docs/               # ドキュメント (計画、仕様、ウォークスルー)
 ├── migrations/         # D1 データベースマイグレーション
 ├── src/
@@ -84,3 +85,10 @@ JAN/ISBNコードから商品情報を取得する（サーバーサイドで楽
 ## 7. セキュリティ
 - **認証**: 本番環境では Cloudflare Access を使用。アプリケーション層での認証実装は行わない。
 - **バリデーション**: Drizzle ORM および Hono のボディパース時に最低限の整合性チェックを行う。
+
+## 8. インフラ・デプロイメント
+- **Platform**: Cloudflare Workers
+- **Database**: Cloudflare D1
+- **CI/CD**: GitHub Actions
+  - `main` ブランチへのプッシュをトリガーに自動デプロイ。
+  - プロセス: ビルド (Client/Server) -> マイグレーション適用 -> デプロイ
