@@ -6,5 +6,8 @@ CREATE TABLE `items` (
 	`image_url` text,
 	`status` text NOT NULL,
 	`description` text,
+	`tags` text,
+	`list_price` integer,
+	`purchase_price` integer,
 	`created_at` integer NOT NULL
 );
