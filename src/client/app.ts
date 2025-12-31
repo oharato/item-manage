@@ -14,6 +14,11 @@ export default function app() {
         editingItem: null as Item | null,
         isModalOpen: false,
 
+        // Toast Notification
+        toastMessage: '',
+        isToastVisible: false,
+        toastTimeout: null as number | null,
+
         async init() {
             console.log('App initialized');
             await this.loadItems();
@@ -122,6 +127,17 @@ export default function app() {
             this.searchCategory = 'all';
             this.searchStatus = 'all';
             this.searchTags = '';
+        },
+
+        showToast(message: string) {
+            this.toastMessage = message;
+            this.isToastVisible = true;
+
+            if (this.toastTimeout) clearTimeout(this.toastTimeout);
+
+            this.toastTimeout = setTimeout(() => {
+                this.isToastVisible = false;
+            }, 3000) as unknown as number;
         }
     };
 }

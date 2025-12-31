@@ -242,6 +242,14 @@ export const MainView = html`
 
           <div style="display: flex; flex-direction: column; gap: 1.2rem;">
             <div class="input-group">
+              <label style="font-size: 0.8rem; color: var(--text-muted); display: block; margin-bottom: 0.4rem;">ステータス</label>
+              <select x-model="editingItem.status" style="width: 100%; background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); color: white; border-radius: 6px; padding: 8px 12px;">
+                <option value="owned">所有中</option>
+                <option value="wishlist">欲しいもの</option>
+              </select>
+            </div>
+
+            <div class="input-group">
               <label style="font-size: 0.8rem; color: var(--text-muted); display: block; margin-bottom: 0.4rem;">カテゴリ</label>
               <select x-model="editingItem.category" style="width: 100%; background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); color: white; border-radius: 6px; padding: 8px 12px;">
                 <option value="book">本</option>
@@ -285,6 +293,18 @@ export const MainView = html`
         </div>
       </template>
     </div>
+  </div>
+
+  <!-- Toast Notification -->
+  <div x-show="isToastVisible"
+       class="toast-notification"
+       x-transition:enter="transition ease-out duration-300"
+       x-transition:enter-start="opacity-0 -translate-y-2"
+       x-transition:enter-end="opacity-100 translate-y-0"
+       x-transition:leave="transition ease-in duration-200"
+       x-transition:leave-start="opacity-100 translate-y-0"
+       x-transition:leave-end="opacity-0 -translate-y-2">
+    <span x-text="toastMessage"></span>
   </div>
 </div>
 `
