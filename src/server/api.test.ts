@@ -54,4 +54,70 @@ describe('Item Management API', () => {
         expect(data.name).toBe('New Book')
         expect(data.id).toBeDefined()
     })
+    it('PUT /api/items/:id should return 200 and success', async () => {
+        const mockDbChain = {
+            update: vi.fn().mockReturnThis(),
+            set: vi.fn().mockReturnThis(),
+            where: vi.fn().mockResolvedValue({ success: true }),
+        };
+        (drizzle as any).mockReturnValue(mockDbChain)
+
+        const res = await app.request('/api/items/123', {
+            method: 'PUT',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+                name: 'Updated Name',
+                status: 'wishlist'
+            }),
+        }, { DB: {} as any })
+
+        expect(res.status).toBe(200)
+        const data: any = await res.json()
+        expect(data.success).toBe(true)
+    })
+
+    it('DELETE /api/items/:id should return 200 and success', async () => {
+        const mockDbChain = {
+            delete: vi.fn().mockReturnThis(),
+            where: vi.fn().mockResolvedValue({ success: true }),
+        };
+        (drizzle as any).mockReturnValue(mockDbChain)
+
+        const res = await app.request('/api/items/123', {
+            method: 'DELETE',
+        }, { DB: {} as any })
+
+        expect(res.status).toBe(200)
+        const data: any = await res.json()
+        expect(data.success).toBe(true)
+    })
+
+    it('GET /api/lookup/:code should return item info from Rakuten API', async () => {
+        const mockFetch = vi.fn().mockResolvedValue({
+            ok: true,
+            json: async () => ({
+                Items: [
+                    {
+                        Item: {
+                            title: 'Sample Book',
+                            largeImageUrl: 'http://example.com/image.jpg',
+                            itemCaption: 'Description',
+                            itemPrice: 1000,
+                            genreId: '001001', // Book
+                        }
+                    }
+                ]
+            })
+        })
+        global.fetch = mockFetch
+
+        const res = await app.request('/api/lookup/9784000000000', {
+            method: 'GET',
+        }, { RAKUTEN_APP_ID: 'test-app-id' } as any)
+
+        expect(res.status).toBe(200)
+        const data: any = await res.json()
+        expect(data.name).toBe('Sample Book')
+        expect(data.category).toBe('book')
+    })
 })

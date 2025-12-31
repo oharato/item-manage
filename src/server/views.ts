@@ -106,6 +106,7 @@ export const MainView = html`
                   <span style="font-size: 0.65rem; background: rgba(96, 165, 250, 0.2); color: #93c5fd; padding: 1px 6px; border-radius: 10px; border: 1px solid rgba(96, 165, 250, 0.3);" x-text="tag"></span>
               </template>
             </div>
+            <div style="font-size: 0.7rem; color: #64748b; margin-top: 0.5rem; text-align: right;" x-text="item.createdAt ? new Date(item.createdAt).toLocaleDateString('ja-JP') : ''"></div>
             <div class="actions">
               <button class="badge-btn" @click="openEditModal(item)">
                 詳細・編集
@@ -201,6 +202,23 @@ export const MainView = html`
             <label class="radio-chip">
               <input type="radio" x-model="searchStatus" :value="stat.v">
               <span x-text="stat.l"></span>
+            </label>
+          </template>
+        </div>
+      </div>
+      <!-- 4行目: 並び替え -->
+      <div class="input-group">
+        <label style="font-size: 0.7rem; color: var(--text-muted); display: block;">並び替え</label>
+        <div class="filter-group">
+          <template x-for="sort in [
+            {v: 'created_desc', l: '登録日↓'},
+            {v: 'created_asc', l: '登録日↑'},
+            {v: 'name_asc', l: '名前順↑'},
+            {v: 'name_desc', l: '名前順↓'}
+          ]" :key="sort.v">
+            <label class="radio-chip">
+              <input type="radio" x-model="searchSort" :value="sort.v">
+              <span x-text="sort.l"></span>
             </label>
           </template>
         </div>

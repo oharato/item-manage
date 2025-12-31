@@ -9,6 +9,7 @@ export default function app() {
         searchCategory: 'all',
         searchStatus: 'all',
         searchTags: '',
+        searchSort: 'created_desc', // name_asc, name_desc, created_asc, created_desc
         showSearch: false,
 
         editingItem: null as Item | null,
@@ -40,6 +41,17 @@ export default function app() {
                     searchTagList.every(st => tags.some(t => t.includes(st)));
 
                 return matchesQuery && matchesCategory && matchesStatus && matchesTags;
+            }).sort((a, b) => {
+                if (this.searchSort === 'name_asc') {
+                    return a.name.localeCompare(b.name, 'ja');
+                } else if (this.searchSort === 'name_desc') {
+                    return b.name.localeCompare(a.name, 'ja');
+                } else if (this.searchSort === 'created_asc') {
+                    return new Date(a.createdAt).getTime() - new Date(b.createdAt).getTime();
+                } else {
+                    // created_desc (default)
+                    return new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime();
+                }
             });
         },
 
@@ -126,7 +138,10 @@ export default function app() {
             this.searchQuery = '';
             this.searchCategory = 'all';
             this.searchStatus = 'all';
+            this.searchCategory = 'all';
+            this.searchStatus = 'all';
             this.searchTags = '';
+            this.searchSort = 'created_desc';
         },
 
         showToast(message: string) {
